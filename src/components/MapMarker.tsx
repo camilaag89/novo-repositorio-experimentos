@@ -52,9 +52,17 @@ export const createMapMarker = ({ map, construction, onMarkerClick, mapboxgl }: 
     .setLngLat([longitude, latitude])
     .addTo(map);
 
-  // Adicionar evento de clique
+  // Adicionar evento de clique - IMPORTANTE: Passar o objeto construction completo
   el.addEventListener('click', () => {
     if (onMarkerClick) {
+      // Garantir que todos os dados estão sendo passados
+      console.log("Dados da construção no clique:", construction);
+      
+      // Verificar especificamente os dados de área
+      console.log("Área Construída:", construction["Área Construída"]);
+      console.log("Área do Terreno:", construction["Área do Terreno"]);
+      
+      // Chamar o callback com o objeto completo
       onMarkerClick(construction);
     }
   });

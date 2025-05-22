@@ -24,7 +24,12 @@ function MapComponent({
 
   // Handler para clique no marcador
   const handleMarkerClick = (construction: Construction) => {
-    setSelectedConstruction(construction);
+    console.log("Construção selecionada:", construction);
+    console.log("Área Construída:", construction["Área Construída"]);
+    console.log("Área do Terreno:", construction["Área do Terreno"]);
+    
+    // Garantir que estamos passando o objeto completo
+    setSelectedConstruction({...construction});
     setIsPopupOpen(true);
     
     // Se houver um handler externo, também o chamamos
