@@ -235,7 +235,12 @@ export const useLeafletMap = ({
   function getMarkerColor(status: string | undefined): string {
     if (!status) return '#999999';
     
-    switch (status.toLowerCase()) {
+    // Normaliza o status removendo espaços extras e convertendo para minúsculas
+    const normalizedStatus = status.trim().toLowerCase();
+    console.log('Status normalizado:', normalizedStatus);
+
+
+    switch (normalizedStatus) {
       case 'aprovada':
         return '#4CAF50'; // Verde
       case 'consulta':
