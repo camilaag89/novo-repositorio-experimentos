@@ -200,22 +200,18 @@ export const useLeafletMap = ({
           { icon }
         ).addTo(map.current);
         
-        // Adicionar popup
-        marker.bindPopup(`
-          <div>
+	// Adicionar popup
+	marker.bindPopup(`
+  	  <div>
             <h3>${construction.name || 'Construção ' + construction.id}</h3>
             <p>Status: ${construction.status || 'N/A'}</p>
             <p>Cidade: ${construction.city || 'N/A'}</p>
             ${construction.address ? `<p>Endereço: ${construction.address}</p>` : ''}
+            <p>Área Construída: ${construction.builtArea || 'N/A'} m²</p>
+            <p>Área do Terreno: ${construction.landArea || 'N/A'} m²</p>
           </div>
         `);
-        
-        // Adicionar evento de clique
-        if (onMarkerClick) {
-          marker.on('click', () => {
-            onMarkerClick(construction);
-          });
-        }
+	
         
         markers.current.push(marker);
       } catch (error) {
@@ -231,6 +227,9 @@ export const useLeafletMap = ({
     }
   }, [memoizedConstructions, onMarkerClick, mapLoaded]);
 
+
+
+
   // Função auxiliar para determinar a cor do marcador com base no status
   function getMarkerColor(status: string | undefined): string {
     if (!status) return '#999999';
@@ -238,6 +237,17 @@ export const useLeafletMap = ({
     // Normaliza o status removendo espaços extras e convertendo para minúsculas
     const normalizedStatus = status.trim().toLowerCase();
     console.log('Status normalizado:', normalizedStatus);
+
+	
+    // Forçar cores específicas para depuração
+    if (normalizedStatus.includes('aprov')) {
+      return '#4CAF50'; // Verde para qualquer variação de "aprovada"
+    } else if (normalizedStatus.includes('consul')) {
+      return '#2196F3'; // Azul para qualquer variação de "consulta"
+    } else if (normalizedStatus.includes('anál') || normalizedStatus.includes('anal')) {
+      return '#FF9800'; // Laranja para qualquer variação de "análise"
+    }
+
 
 
     switch (normalizedStatus) {
